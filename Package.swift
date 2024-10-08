@@ -17,5 +17,6 @@ let package = Package(
             dependencies: ["SwiftSCAD"],
             swiftSettings: [.enableUpcomingFeature("ExistentialAny")]
         ),
+        .executableTarget(name: "Example", dependencies: ["Keystone", "SwiftSCAD"])
     ]
 )
