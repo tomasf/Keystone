@@ -9,7 +9,7 @@ let package = Package(
         .library(name: "Keystone", targets: ["Keystone"])
     ],
     dependencies: [
-        .package(url: "https://github.com/tomasf/SwiftSCAD.git", from: "0.7.0"),
+        .package(url: "https://github.com/tomasf/SwiftSCAD.git", from: "0.7.1"),
     ],
     targets: [
         .target(
