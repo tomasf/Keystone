@@ -36,6 +36,7 @@ public struct KeystoneSlot: Shape3D {
     }
 
     let latchSpaceDepthExtension: Double
+    @EnvironmentValue(\.keystoneSlotMetrics) var metrics
 
     /// Creates a new `KeystoneSlot` instance with a specified extension for the latch space depth.
     ///
@@ -47,34 +48,36 @@ public struct KeystoneSlot: Shape3D {
     }
 
     public var body: any Geometry3D {
-        EnvironmentReader { e in
-            let m = Metrics(environment: e)
+        Box(metrics.baseSize + .init(z: 0.02))
+            .aligned(at: .centerXY)
+            .translated(z: -0.01)
+            .adding {
+                // Add slope-shaped space that is needed for rotating while inserting the module
+                Box([metrics.baseSize.x, metrics.insertionSlopeSize + 1, 1])
+                    .aligned(at: .centerX)
+                    .translated(y: metrics.baseSize.y / 2 - 1, z: metrics.baseSize.z - metrics.latchDistanceFromFront + metrics.latchSpaceSize.z - 1)
+            }
+            .convexHull()
 
-            Box(m.baseSize + .init(z: 0.02))
-                .aligned(at: .centerXY)
-                .translated(z: -0.01)
-                .adding {
-                    // Add slope-shaped space that is needed for rotating while inserting the module
-                    Box([m.baseSize.x, m.insertionSlopeSize + 1, 1])
-                        .aligned(at: .centerX)
-                        .translated(y: m.baseSize.y / 2 - 1, z: m.baseSize.z - m.latchDistanceFromFront + m.latchSpaceSize.z - 1)
-                }
-                .convexHull()
+        // Latch, the flexible tab that snaps into the latch space
+        Box(metrics.latchSpaceSize + [0, 2 + latchSpaceDepthExtension, 0])
+            .aligned(at: .centerX)
+            .translated(y: metrics.baseSize.y / 2 - 1, z: metrics.baseSize.z - metrics.latchDistanceFromFront)
 
-            // Latch, the flexible tab that snaps into the latch space
-            Box(m.latchSpaceSize + [0, 2 + latchSpaceDepthExtension, 0])
-                .aligned(at: .centerX)
-                .translated(y: m.baseSize.y / 2 - 1, z: m.baseSize.z - m.latchDistanceFromFront)
+        // Additional space for the body of the latch
+        Box([metrics.baseSize.x, metrics.latchBodySize + 1, metrics.baseSize.z - metrics.latchDistanceFromFront + 1])
+            .aligned(at: .centerX)
+            .translated(y: metrics.baseSize.y / 2 - 1, z: -1)
 
-            // Additional space for the body of the latch
-            Box([m.baseSize.x, m.latchBodySize + 1, m.baseSize.z - m.latchDistanceFromFront + 1])
-                .aligned(at: .centerX)
-                .translated(y: m.baseSize.y / 2 - 1, z: -1)
+        // Anchor, a fixed tab opposite the latch that holds the module in place
+        Box([metrics.baseSize.x, metrics.anchorSpaceSizeY + 1, metrics.anchorSpaceSizeZ])
+            .aligned(at: .centerX)
+            .translated(y: -metrics.baseSize.y / 2 - metrics.anchorSpaceSizeY, z: metrics.baseSize.z - metrics.latchDistanceFromFront)
+    }
+}
 
-            // Anchor, a fixed tab opposite the latch that holds the module in place
-            Box([m.baseSize.x, m.anchorSpaceSizeY + 1, m.anchorSpaceSizeZ])
-                .aligned(at: .centerX)
-                .translated(y: -m.baseSize.y / 2 - m.anchorSpaceSizeY, z: m.baseSize.z - m.latchDistanceFromFront)
-        }
+public extension Environment {
+    var keystoneSlotMetrics: KeystoneSlot.Metrics {
+        .init(environment: self)
     }
 }

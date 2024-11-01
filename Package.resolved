@@ -1,5 +1,5 @@
 {
-  "originHash" : "b40b4f3a786d679e139d4d0b198cbde45af390d22b4329d87ba2497215d2b3d5",
+  "originHash" : "df7130ac8d730ee8e3e46047cb8c24bba492ce07fd54c186b8ab3416aa6d3462",
   "pins" : [
     {
       "identity" : "swift-collections",
@@ -24,8 +24,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/tomasf/SwiftSCAD.git",
       "state" : {
-        "revision" : "d874d042c45046f1f87b4e27bc27ddd292fa874a",
-        "version" : "0.7.1"
+        "revision" : "06d0fa1ee58b340ce288ded167e91dda02e11119",
+        "version" : "0.8.1"
       }
     }
   ],
