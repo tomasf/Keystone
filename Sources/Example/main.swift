@@ -2,7 +2,7 @@ import Keystone
 import SwiftSCAD
 
 struct Example: Shape3D {
-    @EnvironmentValue(\.keystoneSlotMetrics) var metrics
+    @Environment(\.keystoneSlotMetrics) var metrics
 
     var body: any Geometry3D {
         Box(metrics.baseSize + [10, 12, 0])

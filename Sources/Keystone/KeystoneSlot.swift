@@ -28,7 +28,7 @@ public struct KeystoneSlot: Shape3D {
         public let anchorSpaceSizeY = 1.8
         public let anchorSpaceSizeZ = 3.0
 
-        public init(environment: Environment) {
+        public init(environment: EnvironmentValues) {
             let tolerance = environment.tolerance
             baseSize = [14.5 + tolerance, 16.1 + tolerance, 9.8]
             latchSpaceSize = [baseSize.x, 5.2, 3.0]
@@ -36,7 +36,7 @@ public struct KeystoneSlot: Shape3D {
     }
 
     let latchSpaceDepthExtension: Double
-    @EnvironmentValue(\.keystoneSlotMetrics) var metrics
+    @Environment(\.keystoneSlotMetrics) var metrics
 
     /// Creates a new `KeystoneSlot` instance with a specified extension for the latch space depth.
     ///
@@ -76,7 +76,7 @@ public struct KeystoneSlot: Shape3D {
     }
 }
 
-public extension Environment {
+public extension EnvironmentValues {
     var keystoneSlotMetrics: KeystoneSlot.Metrics {
         .init(environment: self)
     }
