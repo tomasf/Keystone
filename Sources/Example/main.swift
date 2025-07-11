@@ -1,5 +1,5 @@
 import Keystone
-import SwiftSCAD
+import Cadova
 
 struct Example: Shape3D {
     @Environment(\.keystoneSlotMetrics) var metrics
@@ -14,7 +14,8 @@ struct Example: Shape3D {
     }
 }
 
-save(environment: .defaultEnvironment.withTolerance(0.3)) {
+await Model("keystone-example") {
     Example()
-        .named("keystone-example")
+} environment: {
+    $0.tolerance = 0.3
 }
