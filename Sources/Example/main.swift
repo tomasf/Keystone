@@ -1,7 +1,7 @@
 import Keystone
 import Cadova
 
-struct Example: Shape3D {
+struct Example: Geometry3D {
     @Environment(\.keystoneSlotMetrics) var metrics
 
     var body: any Geometry3D {
@@ -15,7 +15,8 @@ struct Example: Shape3D {
 }
 
 await Model("keystone-example") {
+    Environment {
+        $0.tolerance = 0.3
+    }
     Example()
-} environment: {
-    $0.tolerance = 0.3
 }

@@ -16,7 +16,7 @@ import Cadova
 ///   other models, allowing users to align their designs with the dimensions
 ///   of a standard keystone module.
 ///
-public struct KeystoneSlot: Shape3D {
+public struct KeystoneSlot: Geometry3D {
     public struct Metrics: Sendable {
         public let baseSize: Vector3D
         public let insertionSlopeSize = 2.0
